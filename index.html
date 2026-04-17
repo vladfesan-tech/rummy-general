@@ -5,7 +5,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Scor Rummy - de VAF</title>
     <style>
         :root {
@@ -14,15 +14,17 @@
         }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg); color: var(--primary); margin: 0; padding: 20px;
+            background-color: var(--bg); color: var(--primary); margin: 0; 
+            padding: 5px; /* Modificat pentru ecrane mici */
             display: flex; flex-direction: column; align-items: center;
         }
         .container {
-            background-color: var(--white); padding: 20px; border-radius: 12px;
+            background-color: var(--white); padding: 10px; border-radius: 12px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1); width: 100%; max-width: 600px; box-sizing: border-box;
         }
         
-        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        /* REPARAȚIE LĂȚIME TABEL */
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; table-layout: fixed; }
         
         /* Sticky Header */
         thead tr:first-child th {
@@ -32,36 +34,37 @@
             position: sticky; top: 48px; z-index: 9; background-color: #e8f4f8 !important; border-bottom: 2px solid var(--border);
         }
 
-        th, td { border: 1px solid var(--border); padding: 8px 4px; text-align: center; min-width: 65px; }
+        /* Optimizare spațiu celule */
+        th, td { border: 1px solid var(--border); padding: 4px 2px; text-align: center; overflow: hidden; word-wrap: break-word; }
         th { background-color: var(--primary); color: var(--white); }
-        .player-name { background: transparent; border: none; color: var(--white); font-weight: bold; font-size: 16px; text-align: center; width: 100%; }
+        .player-name { background: transparent; border: none; color: var(--white); font-weight: bold; font-size: 15px; text-align: center; width: 100%; padding: 0; }
         .player-name::placeholder { color: rgba(255, 255, 255, 0.6); }
-        .dealer-badge { display: block; font-size: 12px; color: var(--atu); height: 14px; margin-top: 2px; }
+        .dealer-badge { display: block; font-size: 11px; color: var(--atu); height: 14px; margin-top: 2px; }
         
-        /* Buton Minus si Inputuri */
-        .input-group { display: flex; gap: 4px; margin-top: 5px; }
+        /* Buton Minus si Inputuri - făcute elastice */
+        .input-group { display: flex; gap: 2px; margin-top: 5px; width: 100%; box-sizing: border-box; justify-content: center; }
         .btn-minus { 
             background-color: #95a5a6; color: white; border: none; border-radius: 4px; 
-            font-weight: bold; font-size: 16px; padding: 0 8px; cursor: pointer;
+            font-weight: bold; font-size: 14px; padding: 5px 6px; cursor: pointer; flex: 0 0 auto;
         }
         .btn-minus:active { background-color: #7f8c8d; }
         .score-input { 
-            width: 100%; padding: 8px 4px; border: 1px solid var(--border); 
-            border-radius: 4px; text-align: center; font-size: 16px; min-width: 0;
+            flex: 1 1 auto; min-width: 0; padding: 6px 0; border: 1px solid var(--border); 
+            border-radius: 4px; text-align: center; font-size: 14px; 
         }
 
-        .edit-input { width: 100%; border: 1px dashed transparent; text-align: center; font-size: 16px; background: transparent; }
-        .total-row { font-weight: bold; background-color: #e8f4f8; font-size: 18px; }
+        .edit-input { width: 100%; border: 1px dashed transparent; text-align: center; font-size: 15px; background: transparent; padding: 0; }
+        .total-row { font-weight: bold; background-color: #e8f4f8; font-size: 16px; }
         .btn-main { background-color: var(--success); color: var(--white); border: none; padding: 12px 20px; font-weight: bold; border-radius: 8px; width: 100%; cursor: pointer; }
-        .btn-atu { background-color: #ecf0f1; border: 1px solid #bdc3c7; border-radius: 4px; padding: 4px; font-size: 12px; width: 100%; color: #7f8c8d; cursor: pointer; }
+        .btn-atu { background-color: #ecf0f1; border: 1px solid #bdc3c7; border-radius: 4px; padding: 3px; font-size: 11px; width: 100%; color: #7f8c8d; cursor: pointer; }
         .btn-atu.active { background-color: var(--atu); color: #000; }
-        .badge-atu { display: inline-block; background-color: var(--atu); color: #000; padding: 2px 6px; border-radius: 4px; font-size: 10px; margin-top: 4px; }
-        .round-col { width: 40px; font-weight: bold; background-color: var(--bg); }
+        .badge-atu { display: inline-block; background-color: var(--atu); color: #000; padding: 2px 4px; border-radius: 4px; font-size: 9px; margin-top: 4px; font-weight: bold; }
+        .round-col { width: 30px; font-weight: bold; background-color: var(--bg); font-size: 13px; }
         
         /* Modal (Meniu Joc Nou) */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; align-items: center; justify-content: center; z-index: 1000; }
-        .modal-content { background: var(--white); padding: 25px; border-radius: 12px; text-align: center; width: 320px; }
-        .modal-name-input { width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid var(--border); border-radius: 6px; text-align: center; font-size: 16px; }
+        .modal-content { background: var(--white); padding: 20px; border-radius: 12px; text-align: center; width: 90%; max-width: 320px; box-sizing: border-box; }
+        .modal-name-input { width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid var(--border); border-radius: 6px; text-align: center; font-size: 16px; box-sizing: border-box; }
         .modal-buttons-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
         .btn-modal { background-color: var(--primary); color: var(--white); border: none; padding: 12px 5px; border-radius: 6px; font-weight: bold; cursor: pointer; }
     </style>
@@ -153,7 +156,6 @@
             for (let i = 0; i < 4; i++) {
                 let input = document.getElementById('modal-input-' + i);
                 let val = input.value.trim();
-                // Dacă e gol, preia textul din placeholder (ex: Eva), altfel pune Jucător
                 let numeDefault = input.getAttribute('placeholder') || ('Jucător ' + (i+1));
                 
                 document.getElementById('modal-btn-' + i).innerText = val || numeDefault;
@@ -166,7 +168,6 @@
                 let val = input.value.trim();
                 let numeDefault = input.getAttribute('placeholder') || ('Jucător ' + (i+1));
                 
-                // Trimite numele în tabelul principal
                 document.getElementById('nume' + i).value = val || numeDefault;
             }
             currentDealer = idx;
@@ -200,7 +201,6 @@
             alegeAtu(-1);
             actualizeazaInterfata();
             
-            // Scroll automat la finalul tabelului
             window.scrollTo(0, document.body.scrollHeight);
         }
 
