@@ -1,21 +1,33 @@
 {
-  "name": "Numele Aplicatiei Tale",
-  "short_name": "AppScor",
-  "description": "Aplicatie de scor care functioneaza offline",
+  "name": "Scor Rummy de VAF",
+  "short_name": "Scor Rummy",
+  "id": "/",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#007bff",
-"icons": [
+  "background_color": "#ecf0f1",
+  "theme_color": "#2c3e50",
+  "orientation": "portrait",
+  "categories": ["games", "utilities"],
+  "icons": [
     {
       "src": "icon.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
       "src": "icon.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "form_factor": "narrow"
     }
   ]
 }
